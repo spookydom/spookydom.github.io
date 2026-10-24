@@ -56,14 +56,15 @@
     const PROJECTS = [
       {
         title: "Balance",
+        phone: true,
         subtitle: "iOS productivity app for students",
         desc: "A native iOS calendar app that lets students sync schedules and share real-time availability with friends. An AI agent edits your calendar from plain-English commands, and a syllabus parser turns PDFs and photos into class, assignment and exam events.",
         tags: ["Swift", "SwiftUI", "SwiftData", "Cloudflare Workers", "REST APIs"],
         links: [["github", "https://github.com/spookydom"]],
         photos: [
-          "images/projects/balance/1.jpg",
-          "images/projects/balance/2.jpg",
-          "images/projects/balance/3.jpg",
+          "images/projects/balance/1.png",
+          "images/projects/balance/2.png",
+          "images/projects/balance/3.png",
         ],
       },
       {
@@ -97,13 +98,14 @@
 
     function photo(src, alt) {
       return `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy"
+        onload="if (this.naturalHeight > this.naturalWidth) this.classList.add('tall')"
         onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ph',textContent:'photo coming soon'}))" />`;
     }
 
     $("grid").innerHTML = PROJECTS.map((p, i) => `
       <button class="gcard" data-i="${i}">
         <span class="gcard-num">${String(i + 1).padStart(2, "0")}</span>
-        <span class="gcard-cover">${photo(p.photos[0] || "", p.title)}</span>
+        <span class="gcard-cover${p.phone ? " phones" : ""}">${p.phone ? p.photos.slice(0, 3).map((src) => photo(src, p.title)).join("") : photo(p.photos[0] || "", p.title)}</span>
         <span class="gcard-body">
           <span class="gcard-title">${esc(p.title)}</span>
           <span class="gcard-sub">${esc(p.subtitle)}</span>

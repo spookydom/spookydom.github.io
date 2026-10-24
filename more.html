@@ -25,7 +25,6 @@
     <h2 class="label"><span>WORK I'VE DONE</span></h2>
     <p class="block-sub">class projects, experiments, and side quests.</p>
 
-    <!-- cards are built from the PROJECTS list at the bottom of this file -->
     <div class="gallery-grid" id="grid"></div>
   </section>
 
@@ -34,7 +33,6 @@
     <a href="index.html">back home ↑</a>
   </footer>
 
-  <!-- photo viewer (opens when a card is clicked) -->
   <dialog class="viewer" id="viewer" aria-label="Project photos">
     <button class="v-close" id="v-close" aria-label="Close">✕</button>
     <div class="v-stage">
@@ -55,9 +53,6 @@
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    /* ===== EDIT YOUR PROJECTS HERE =====
-       Photos: put them in images/projects/<folder>/ and list the filenames below.
-       Any number of photos works. The first one is the card's cover. */
     const PROJECTS = [
       {
         title: "Balance",
@@ -96,15 +91,13 @@
         ],
       },
     ];
-    /* ===== end of edit area ===== */
 
     const $ = (id) => document.getElementById(id);
     const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-    // an <img> that swaps itself for a placeholder if the file isn't there yet
     function photo(src, alt) {
       return `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy"
-        onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ph',textContent:'add ' + this.getAttribute('src')}))" />`;
+        onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ph',textContent:'photo coming soon'}))" />`;
     }
 
     $("grid").innerHTML = PROJECTS.map((p, i) => `

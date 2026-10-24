@@ -161,6 +161,8 @@ img { display: block; max-width: 100%; }
 .search .gh path { fill: var(--ink); stroke: none; }
 .socials a svg { width: 18px; height: 18px; margin-right: 8px; vertical-align: -3px; }
 .socials a svg path { fill: currentColor; }
+.socials a .ig * { fill: none; stroke: currentColor; stroke-width: 2.4; }
+.socials a .ig .dot { fill: currentColor; stroke: none; }
 .search:hover { transform: translateX(6px); }
 .search span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 

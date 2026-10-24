@@ -159,8 +159,8 @@ img { display: block; max-width: 100%; }
 }
 .search svg { width: 26px; height: 26px; flex-shrink: 0; }
 .search .gh path { fill: var(--ink); stroke: none; }
-.socials a .gh { width: 18px; height: 18px; margin-right: 8px; vertical-align: -3px; }
-.socials a .gh path { fill: currentColor; }
+.socials a svg { width: 18px; height: 18px; margin-right: 8px; vertical-align: -3px; }
+.socials a svg path { fill: currentColor; }
 .search:hover { transform: translateX(6px); }
 .search span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 

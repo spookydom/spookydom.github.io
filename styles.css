@@ -74,7 +74,7 @@ img { display: block; max-width: 100%; }
   position: relative; z-index: 1;
   max-width: var(--max);
   margin: 0 auto;
-  padding: 50px 24px 60px;
+  padding: 50px 24px 10px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
   gap: 60px;
@@ -186,7 +186,7 @@ img { display: block; max-width: 100%; }
 
 .corner-swirl { position: absolute; left: -48px; bottom: -50px; width: 54px; height: 40px; }
 
-.right { display: flex; flex-direction: column; gap: 26px; padding-top: 40px; }
+.right { display: flex; flex-direction: column; gap: 22px; padding-top: 20px; }
 .photo {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -232,6 +232,7 @@ img { display: block; max-width: 100%; }
   margin-bottom: 36px;
   position: relative;
 }
+#projects { padding-top: 50px; }
 .label::after {
   content: ""; position: absolute; right: -26px; top: 50%;
   width: 12px; height: 12px; border-radius: 50%; background: var(--white);

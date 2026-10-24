@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>More Work — Dominick Xomvimane</title>
+  <meta name="description" content="Dominick Xomvimane — computer science student building iOS apps, Python tools, and websites. Open to software engineering internships." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,600;0,800;0,900;1,700;1,800;1,900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="subpage">
+  <div class="topbar"></div>
+
+  <nav class="nav">
+    <a href="index.html#about">about me</a>
+    <a href="index.html#projects">projects</a>
+    <a href="index.html#resume">resume</a>
+    <a href="more.html" aria-current="page">more work</a>
+  </nav>
+
+  <section class="block" id="more">
+    <a class="back" href="index.html">← back home</a>
+    <h2 class="label"><span>WORK I'VE DONE</span></h2>
+    <p class="block-sub">class projects, experiments, and side quests.</p>
+
+    <!-- cards are built from the PROJECTS list at the bottom of this file -->
+    <div class="gallery-grid" id="grid"></div>
+  </section>
+
+  <footer class="footer">
+    <p>made by dom · © <span id="y"></span></p>
+    <a href="index.html">back home ↑</a>
+  </footer>
+
+  <!-- photo viewer (opens when a card is clicked) -->
+  <dialog class="viewer" id="viewer" aria-label="Project photos">
+    <button class="v-close" id="v-close" aria-label="Close">✕</button>
+    <div class="v-stage">
+      <button class="v-arrow prev" id="v-prev" aria-label="Previous photo">←</button>
+      <figure class="v-frame" id="v-frame"></figure>
+      <button class="v-arrow next" id="v-next" aria-label="Next photo">→</button>
+    </div>
+    <div class="v-thumbs" id="v-thumbs"></div>
+    <div class="v-info">
+      <p class="v-count" id="v-count"></p>
+      <h3 id="v-title"></h3>
+      <p id="v-desc"></p>
+      <ul class="tags" id="v-tags"></ul>
+      <div class="v-links" id="v-links"></div>
+    </div>
+  </dialog>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    /* ===== EDIT YOUR PROJECTS HERE =====
+       Photos: put them in images/projects/<folder>/ and list the filenames below.
+       Any number of photos works. The first one is the card's cover. */
+    const PROJECTS = [
+      {
+        title: "Balance",
+        subtitle: "iOS productivity app for students",
+        desc: "A native iOS calendar app that lets students sync schedules and share real-time availability with friends. An AI agent edits your calendar from plain-English commands, and a syllabus parser turns PDFs and photos into class, assignment and exam events.",
+        tags: ["Swift", "SwiftUI", "SwiftData", "Cloudflare Workers", "REST APIs"],
+        links: [["github", "https://github.com/spookydom"]],
+        photos: [
+          "images/projects/balance/1.jpg",
+          "images/projects/balance/2.jpg",
+          "images/projects/balance/3.jpg",
+        ],
+      },
+      {
+        title: "Stock Trading Bot",
+        subtitle: "automated paper-trading app",
+        desc: "A Python pipeline that pulls real-time market data, analyzes technical indicators and places algorithmic paper trades. Supports multiple users through Alpaca OAuth, with a Streamlit dashboard for live performance and trade logs.",
+        tags: ["Python", "Alpaca API", "Streamlit", "SQLite", "OAuth"],
+        links: [["github", "https://github.com/spookydom"]],
+        photos: [
+          "images/projects/trading-bot/1.jpg",
+          "images/projects/trading-bot/2.jpg",
+          "images/projects/trading-bot/3.jpg",
+        ],
+      },
+      {
+        title: "GetThai'dUp",
+        subtitle: "restaurant website",
+        desc: "A live website for a local Thai restaurant, built from first design to deployment and tuned for fast, easy browsing on phones and desktops.",
+        tags: ["HTML", "CSS", "GitHub", "Netlify"],
+        links: [["visit site", "https://getthaidup.com/"]],
+        photos: [
+          "images/projects/getthaidup/1.jpg",
+          "images/projects/getthaidup/2.jpg",
+          "images/projects/getthaidup/3.jpg",
+        ],
+      },
+    ];
+    /* ===== end of edit area ===== */
+
+    const $ = (id) => document.getElementById(id);
+    const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+    // an <img> that swaps itself for a placeholder if the file isn't there yet
+    function photo(src, alt) {
+      return `<img src="${esc(src)}" alt="${esc(alt)}" loading="lazy"
+        onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ph',textContent:'add ' + this.getAttribute('src')}))" />`;
+    }
+
+    $("grid").innerHTML = PROJECTS.map((p, i) => `
+      <button class="gcard" data-i="${i}">
+        <span class="gcard-num">${String(i + 1).padStart(2, "0")}</span>
+        <span class="gcard-cover">${photo(p.photos[0] || "", p.title)}</span>
+        <span class="gcard-body">
+          <span class="gcard-title">${esc(p.title)}</span>
+          <span class="gcard-sub">${esc(p.subtitle)}</span>
+          <span class="gcard-go">view photos (${p.photos.length}) →</span>
+        </span>
+      </button>`).join("");
+
+    const viewer = $("viewer");
+    let cur = 0, idx = 0;
+
+    function show(n) {
+      const p = PROJECTS[cur], total = p.photos.length;
+      if (!total) { $("v-frame").innerHTML = '<span class="ph">no photos yet</span>'; $("v-count").textContent = ""; return; }
+      idx = (n + total) % total;
+      $("v-frame").innerHTML = photo(p.photos[idx], `${p.title} photo ${idx + 1}`);
+      $("v-count").textContent = `photo ${idx + 1} / ${total}`;
+      [...$("v-thumbs").children].forEach((t, k) => t.classList.toggle("on", k === idx));
+      const multi = total > 1;
+      $("v-prev").hidden = $("v-next").hidden = !multi;
+    }
+
+    function open(i) {
+      cur = i;
+      const p = PROJECTS[i];
+      $("v-title").textContent = p.title;
+      $("v-desc").textContent = p.desc;
+      $("v-tags").innerHTML = p.tags.map((t) => `<li>${esc(t)}</li>`).join("");
+      $("v-links").innerHTML = p.links.map(([l, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join("");
+      $("v-thumbs").innerHTML = p.photos.length > 1
+        ? p.photos.map((src, k) => `<button aria-label="Photo ${k + 1}" data-k="${k}">${photo(src, "")}</button>`).join("")
+        : "";
+      show(0);
+      viewer.showModal();
+    }
+
+    $("grid").addEventListener("click", (e) => { const c = e.target.closest(".gcard"); if (c) open(+c.dataset.i); });
+    $("v-thumbs").addEventListener("click", (e) => { const t = e.target.closest("button"); if (t) show(+t.dataset.k); });
+    $("v-prev").onclick = () => show(idx - 1);
+    $("v-next").onclick = () => show(idx + 1);
+    $("v-close").onclick = () => viewer.close();
+    viewer.addEventListener("click", (e) => { if (e.target === viewer) viewer.close(); });
+    viewer.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") show(idx - 1);
+      if (e.key === "ArrowRight") show(idx + 1);
+    });
+  </script>
+</body>
+</html>
